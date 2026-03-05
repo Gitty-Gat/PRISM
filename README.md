@@ -101,12 +101,25 @@ Design note (budget): downloads each time window once (5 live calls), then runs 
 This repo intentionally avoids heavy plotting dependencies in the default runtime.
 
 Generate black-background showcase figures from grid artifacts:
-- `python3 scripts/generate_realdata_grid_viz.py`
+- `python3 scripts/realdata_grid_viz_suite.py`
+- `python3 scripts/realdata_grid_animation_frames.py`
 
 Outputs:
 - `results/REALDATA_GRID_RUN/prism_showcase/` (PNG + SVG)
+- `results/REALDATA_GRID_RUN/videos/posterior_learning.gif` (animation fallback)
 
 Note: PDF export may be blocked by local ImageMagick security policy.
+
+## 6) Interactive Dashboard
+Run the local dashboard (reads artifacts only; no API calls):
+
+- `python3 dashboard/run_dashboard.py`
+
+Then open:
+- <http://127.0.0.1:8050/>
+
+Docs:
+- `docs/PRISM_DASHBOARD.md`
 
 ---
 
