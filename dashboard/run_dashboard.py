@@ -60,7 +60,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         if parsed.path == "/api/experiment":
             q = parse_qs(parsed.query)
             exp_id = (q.get("id") or [""])[0]
-            exp = self.state["experiments"].get(exp_id)
+            campaign = (q.get("campaign") or [self.state["public_state"]["default_campaign"]])[0]
+            exp = (self.state["experiments"].get(campaign) or {}).get(exp_id)
             if not exp:
                 return self._send_json({"error": "unknown_experiment", "id": exp_id}, status=404)
             return self._send_json(exp)

@@ -27,9 +27,15 @@
 </header>
 
 <div class="row">
-  <div class="card" style="min-width:280px;">
+  <div class="card" style="min-width:320px;">
     <h2>Filters</h2>
     <div style="display:flex; flex-direction:column; gap:10px;">
+      <label>Campaign
+        <select id="campaign"></select>
+      </label>
+      <label>Time slice
+        <select id="slice"></select>
+      </label>
       <label>Window length
         <select id="window"></select>
       </label>
@@ -38,6 +44,9 @@
       </label>
       <label>Dependence
         <select id="dependence"></select>
+      </label>
+      <label>Posterior mode
+        <select id="pmode"></select>
       </label>
       <label>Experiment ID
         <select id="expid" style="min-width:360px;"></select>
@@ -268,19 +277,26 @@ function setOptions(sel, values){
 let STATE=null;
 let SURF={yaw:0.6, pitch:0.5, dragging:false, lastX:0,lastY:0};
 
+function currentCampaign(){ return document.getElementById('campaign').value; }
+function CSTATE(){ return STATE.campaign_states[currentCampaign()]; }
+
 function filterExperimentIds(){
+  const c=CSTATE();
+  const sl=document.getElementById('slice').value;
   const win=document.getElementById('window').value;
   const w=document.getElementById('weighting').value;
   const d=document.getElementById('dependence').value;
-  const ids=STATE.tables.global_experiment_table
-    .filter(r => r.window_length_min===win && r.weighting_method===w && r.dependence_method===d)
+  const pm=document.getElementById('pmode').value;
+  const ids=c.tables.global_experiment_table
+    .filter(r => (sl==='' || r.time_slice===sl) && r.window_length_min===win && r.weighting_method===w && r.dependence_method===d && (pm==='' || r.posterior_mode===pm))
     .map(r => r.experiment_id);
   setOptions(document.getElementById('expid'), ids);
 }
 
 async function refresh(){
   const expid=document.getElementById('expid').value;
-  const exp=await fetchJSON('/api/experiment?id='+encodeURIComponent(expid));
+  const camp=currentCampaign();
+  const exp=await fetchJSON('/api/experiment?campaign='+encodeURIComponent(camp)+'&id='+encodeURIComponent(expid));
   const warn=document.getElementById('hashwarn');
   if(exp.hash_check && exp.hash_check.status!=='ok'){
     warn.textContent='WARNING: artifact hash check: '+exp.hash_check.status;
@@ -295,17 +311,29 @@ async function refresh(){
 
 async function init(){
   STATE=await fetchJSON('/api/state');
-  setOptions(document.getElementById('window'), STATE.window_lengths);
-  setOptions(document.getElementById('weighting'), STATE.weighting_methods);
-  setOptions(document.getElementById('dependence'), STATE.dependence_methods);
+  setOptions(document.getElementById('campaign'), STATE.campaigns);
+  document.getElementById('campaign').value = STATE.default_campaign;
 
-  // initial selections
-  filterExperimentIds();
-  document.getElementById('landing').textContent =
-    `experiments=${STATE.n_experiments} | windows=[${STATE.window_lengths.join(', ')}] | weighting=[${STATE.weighting_methods.join(', ')}] | dependence=[${STATE.dependence_methods.join(', ')}]`;
+  function loadCampaignControls(){
+    const c=CSTATE();
+    setOptions(document.getElementById('slice'), [''].concat(c.time_slices||[]));
+    setOptions(document.getElementById('window'), c.window_lengths||[]);
+    setOptions(document.getElementById('weighting'), c.weighting_methods||[]);
+    setOptions(document.getElementById('dependence'), c.dependence_methods||[]);
+    setOptions(document.getElementById('pmode'), [''].concat(c.posterior_modes||[]));
 
-  // wire change handlers
-  for(const id of ['window','weighting','dependence']){
+    document.getElementById('landing').textContent =
+      `campaign=${c.campaign} | experiments=${c.n_experiments} | windows=[${(c.window_lengths||[]).join(', ')}] | weighting=[${(c.weighting_methods||[]).join(', ')}] | dependence=[${(c.dependence_methods||[]).join(', ')}] | slices=[${(c.time_slices||[]).join(', ')}]`;
+
+    filterExperimentIds();
+    refresh();
+  }
+
+  loadCampaignControls();
+
+  document.getElementById('campaign').addEventListener('change', loadCampaignControls);
+
+  for(const id of ['slice','window','weighting','dependence','pmode']){
     document.getElementById(id).addEventListener('change', ()=>{ filterExperimentIds(); refresh(); });
   }
   document.getElementById('expid').addEventListener('change', refresh);

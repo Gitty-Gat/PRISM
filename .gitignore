@@ -9,3 +9,9 @@ venv/
 
 # OS
 .DS_Store
+
+# Large generated results (keep locally; do not version)
+results/REALDATA_EXPANDED_VALIDATION/
+results/REALDATA_GRID_RUN/
+results/DATABENTO_LIVE_PROBE/
+data/databento/live_probe/
