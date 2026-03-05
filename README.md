@@ -1,67 +1,125 @@
-# PRISM / CAPOPM — Synthetic + Real-Data (Stage B.4)
+# PRISM / CAPOPM — Synthetic + Real-Data (Stage B)
 
-## A. Project Overview
-- CAPOPM implements the canonical Bayesian parimutuel mechanism with structural priors, ML priors, Stage 1 behavioral reweighting, and Stage 2 regime mixtures (Phases 1–6 of the paper).
-- Goal: evaluate whether CAPOPM satisfies the paper’s theoretical claims under controlled synthetic DGPs before moving to real markets.
-- Synthetic validation is necessary for sanity and regression checks but is not sufficient for real-market credibility.
+PRISM is a research codebase for evaluating CAPOPM (a Bayesian parimutuel mechanism with hybrid priors and staged corrections) under **synthetic DGPs** and **real-market proxy evidence**.
 
-## B. Paper Structure & Claims
-- Phases: structural prior (1), hybrid prior (2), trader information/behavior (3), Bayesian update (4), trade-to-evidence mapping (5), two-stage corrections (6), metrics/stats (7).
-- Theorems/Propositions (examples from audit contracts):
-  - Prop 6 / Lemma 3: information efficiency vs signal quality.
-  - Phase 4 consistency: faster convergence with liquidity.
-  - Theorem 12 / Prop 9: robustness to strategic timing via Stage 1+2.
-  - Theorem 14: corrections do not increase regret.
-  - Theorem 7: variance/bias decay.
-  - Prop 8: regret robustness under misspecification.
-  - Theorem 15: regime posterior concentration.
-  - Theorem 13: projection effect on arbitrage.
-- Empirical validation of any claim is permitted only when audit gating passes (see Section D).
+**Important posture:** real-market results in this repo are *demonstration/proxy evidence only* and are not sufficient to claim theoretical validation or dominance.
 
-## C. Synthetic Experiment Map (Tiers A–D)
-- Tier A (mechanism):  
-  - A1 INFO_EFFICIENCY: tests info aggregation; metrics: Brier/log, calibration, variance, regret vs raw.  
-  - A2 TIME_TO_CONVERGE: tests variance decay vs liquidity/arrivals; metrics: time-to-eps, var slope.  
-  - A3 STRATEGIC_TIMING: tests Stage1/2 protection vs late manipulation; metrics: regret_log, regime weights.
-- Tier B (theoretical consequences):  
-  - B1 CORRECTION_NO_REGRET (Thm 14): regret_brier/log_bad vs uncorrected.  
-  - B2 ASYMPTOTIC_RATE (Thm 7): variance/bias slopes vs n.  
-  - B3 MISSPEC_REGRET (Prop 8): regret surfaces across structural/ML misspec grids.  
-  - B4 REGIME_CONCENTRATION (Thm 15): entropy/max-weight vs evidence.  
-  - B5 ARBITRAGE_PROJECTION (Thm 13): projection distance and score deltas.
-- Tier C/D scaffolding is present via registry/audit artifacts; paper-grade runs pending.
-- Current empirical status (audit-driven, synthetic): **all experiments are “Not yet empirically validated”** for paper because paper-ready gates are not satisfied (low-n and/or grid_missing). Smoke evidence exists but is not claim-bearing.
-  - Use wording: “Under synthetic data, current runs are smoke-level only; paper validation awaits `run_paper_suite.py` with paper thresholds.”
+---
 
-## D. Audit & Rigor Guarantees
-- Audit gates (see `audit.json`):
-  - Calibration interpretability: min unique predictions/nonempty bins/samples; otherwise ECE marked NOT_INTERPRETABLE and discrete calibration reported.
-  - Coverage slicing: overall + extreme-p with support counts and flags for off-nominal coverage.
-  - Effect sizes: CAPOPM vs baselines with bootstrap CI and Holm-corrected paired tests.
-  - Criteria evaluation: single source of truth for pass/fail; semantics mismatch detection; grid_missing reasons recorded.
-  - Reproducibility: config snapshots + hashes, registry/code hashes, reproduce_line, manifest (`PAPER_RUN_MANIFEST.json`).
-- No claim may bypass these gates; if flags remain, claim is “Not yet empirically validated.”
+## 1) System architecture (high level)
 
-## E. Limitations
-- Synthetic DGP ≠ real markets; no external data used.
-- Current artifacts are smoke-level: n_runs < paper thresholds; many degenerate calibration cases; extreme-p support sparse.
-- Discrete calibration replaces ECE when bins/unique counts fail interpretability gates.
-- Known borderline cases are cataloged in `results/paper_artifacts/borderline_atlas.md`.
+```
+Synthetic experiments (A/B/C tiers)
+  run_paper_suite.py
+    -> src/capopm/experiments/*
+      -> src/capopm/experiments/runner.py
+        -> results/<scenario>/{summary.json,metrics_aggregated.csv,tests.csv,reliability_*.csv,audit.json}
 
-## F. Current Status Summary
-- Validated under synthetic data (paper gates passed): **none** (paper suite not yet run at required n/grid; audits show low-n/degenerate calibration/coverage flags).
-- Pending paper-suite reruns: A1–A3, B1–B5 (run `python run_paper_suite.py --experiment <ID> --runs 30`).
-- Awaiting real-data validation: all claims.
+Real-data (Stage B.4)
+  Databento -> src/capopm/realdata/* -> evidence tape
+    -> counts_from_trade_tape()  (core seam)
+    -> (demo) beta_binomial_update + posterior_prices (no core edits)
+    -> results/REALDATA_*/*
+```
 
-## G. Future Work
-- Real-data validation plan (post-synthetic):
-  - Data: exchange-sourced L3 equity order book data; public price/volume via `yfinance`.
-  - Tests: market microstructure realism, non-stationarity stress, strategic trader behavior in real venues.
-  - Principle: “Synthetic validation is necessary but insufficient for real-market credibility.”
+### Core “frozen” Bayesian modules
+Do not edit (governance constraint):
+- `src/capopm/likelihood.py`
+- `src/capopm/posterior.py`
+- `src/capopm/pricing.py`
 
-## Artifact Pointers
-- Audit outputs: `results/<scenario>/audit.json`
-- Aggregated metrics/tests: `results/<scenario>/metrics_aggregated.csv`, `tests.csv`
-- Manifest: `PAPER_RUN_MANIFEST.json`
-- Tables: `results/paper_artifacts/claim_table.md`, `borderline_atlas.md`
-- Harness: `run_paper_suite.py` (paper grids & run counts)
+---
+
+## 2) Synthetic paper suite
+Entry point:
+- `python run_paper_suite.py --tier paper`
+
+Outputs:
+- `results/<scenario>/summary.json`
+- `results/<scenario>/metrics_aggregated.csv`
+- `results/<scenario>/tests.csv`
+- `results/<scenario>/reliability_<model>.csv`
+- `results/<scenario>/audit.json`
+
+Governance gates:
+- AST policy gate: `scripts/forbidden_ast_check.py` + `forbidden_policy.txt`
+- Audit criteria: `src/capopm/experiments/audit.py` + `audit_contracts.py`
+
+---
+
+## 3) Real-data (Stage B.4) — Adapter layer
+### Adapter package
+- `src/capopm/realdata/`
+  - `schema.py` (canonical schemas)
+  - `adapter.py` (fixture parser; provider adapters live elsewhere)
+  - `trade_reconstruction.py` (explicit fills first; deterministic inference optional)
+  - `evidence.py` (emits CAPOPM-compatible evidence tape)
+  - `diagnostics.py`
+
+**Compatibility target:** the adapter must emit tape entries compatible with:
+- `src/capopm/likelihood.py::counts_from_trade_tape()`
+
+That means each entry provides:
+- `side ∈ {YES, NO}`
+- `size > 0`
+- timestamp (`timestamp_ns`)
+
+### Evidence contract versioning
+- `capopm.realdata.evidence.v1` (see `EvidenceTapeV1` in `src/capopm/realdata/schema.py`)
+
+### Real-data adapter docs
+- `docs/REALDATA_ADAPTER.md`
+
+---
+
+## 4) Databento integration (probe + campaign)
+Databento SDK source is vendored locally for reference:
+- `docs/databento/databento-python/`
+
+Databento integration lives under:
+- `src/capopm/realdata/databento/`
+
+Key guardrails:
+- default is **MockTransport** (no network)
+- live calls require `PRISM_DATABENTO_LIVE=1`
+- all live calls must preflight `metadata.get_cost` and enforce budget caps
+
+### Live probe (single request)
+- runner: `scripts/run_databento_live_probe.py`
+- outputs: `results/DATABENTO_LIVE_PROBE/*` and raw response under `data/databento/live_probe/<timestamp>/raw.csv`
+
+### Real-data grid campaign (bounded ≤ $20)
+- scenario: `REALDATA_GRID_RUN`
+- runner:
+  - `PRISM_DATABENTO_LIVE=1 python3 scripts/run_experiment.py --scenario REALDATA_GRID_RUN`
+
+Design note (budget): downloads each time window once (5 live calls), then runs ~50 local grid cells.
+
+---
+
+## 5) Visualizations
+This repo intentionally avoids heavy plotting dependencies in the default runtime.
+
+Generate black-background showcase figures from grid artifacts:
+- `python3 scripts/generate_realdata_grid_viz.py`
+
+Outputs:
+- `results/REALDATA_GRID_RUN/prism_showcase/` (PNG + SVG)
+
+Note: PDF export may be blocked by local ImageMagick security policy.
+
+---
+
+## 6) Claim discipline / disclaimers (required)
+- **Proxy evidence disclaimer:** microstructure evidence is not a literal YES/NO parimutuel venue.
+- **Dependence disclaimer:** market events are dependent; interpret stability via effective sample size n* (ESS proxies).
+- **Latent regime disclaimer:** regimes are unobserved; do not treat regime labels as ground truth.
+- **No dominance disclaimer:** do not claim dominance / “empirically validated” from these runs.
+
+---
+
+## 7) Where to look
+- Real-data probe artifacts: `results/DATABENTO_LIVE_PROBE/`
+- Real-data grid artifacts: `results/REALDATA_GRID_RUN/`
+- Real-data grid write-up: `docs/REALDATA_GRID_RESULTS.md`
+- Synthetic paper suite registry: `PAPER_RUN_MANIFEST.json`
