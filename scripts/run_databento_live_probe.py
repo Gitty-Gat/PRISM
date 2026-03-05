@@ -32,6 +32,7 @@ from src.capopm.realdata.databento.client import DatabentoHistoricalClient
 from src.capopm.realdata.databento.cost_guard import require_budget_ok
 from src.capopm.realdata.databento.schemas import CostRequest, TimeseriesRequest
 from src.capopm.realdata.databento.transport import LiveTransport
+from src.capopm.realdata.databento.validation import validate_request
 from src.capopm.realdata.databento.ingest import parse_trades_csv
 
 from src.capopm.realdata.trade_reconstruction import reconstruct_trades
@@ -49,9 +50,11 @@ PROBE = {
     "schema": "trades",
     "symbols": "ES.FUT",
     "stype_in": "parent",
-    "stype_out": "raw_symbol",
-    "start": "2024-01-03T14:30:00Z",
-    "end": "2024-01-03T14:31:00Z",
+    # Align with SDK defaults to avoid symbology-combo errors.
+    "stype_out": "instrument_id",
+    # Align with SDK examples (no trailing 'Z' required).
+    "start": "2024-01-03T14:30",
+    "end": "2024-01-03T14:31",
     "encoding": "csv",
     "compression": "none",
     "limit": None,
@@ -81,6 +84,22 @@ def main() -> None:
     with open(run_log_path, "w", encoding="utf-8") as log:
         log.write(f"probe_ts={ts}\n")
         log.write(json.dumps(PROBE, indent=2) + "\n")
+
+    # Ensure debug directory is discoverable by transport.
+    os.environ["PRISM_PROBE_RESULTS_DIR"] = results_dir
+
+    # --- Request debug logging (no network) ---
+    request_debug = {
+        "ts": ts,
+        "endpoint_base": "https://hist.databento.com/v0",
+        "probe": {k: ("***" if k.lower().endswith("key") else v) for k, v in PROBE.items()},
+        "notes": [
+            "Authorization header is redacted by design.",
+            "This file is written before any network calls.",
+        ],
+    }
+    with open(os.path.join(results_dir, "request_debug.json"), "w", encoding="utf-8") as f:
+        json.dump(request_debug, f, indent=2)
 
     transport = LiveTransport()
     client = DatabentoHistoricalClient(transport=transport)
@@ -112,6 +131,7 @@ def main() -> None:
         end=PROBE["end"],
         limit=PROBE["limit"],
     )
+    validate_request(ts_req, encoding=PROBE["encoding"], compression=PROBE["compression"], require_end=True)
     resp = client.get_range_raw(ts_req, encoding=PROBE["encoding"], compression=PROBE["compression"])
 
     raw_path = os.path.join(live_dir, "raw.csv")

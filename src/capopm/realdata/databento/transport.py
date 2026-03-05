@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import base64
 import os
+import urllib.error
 import urllib.parse
 import urllib.request
 from dataclasses import dataclass
@@ -24,6 +25,11 @@ API_VERSION = 0
 
 class TransportError(RuntimeError):
     pass
+
+
+def _probe_results_dir() -> str | None:
+    # Used to drop debug payloads for 4xx failures without leaking secrets.
+    return os.environ.get("PRISM_PROBE_RESULTS_DIR")
 
 
 @dataclass
@@ -80,5 +86,19 @@ class LiveTransport(Transport):
                 body = resp.read()
                 headers = {k.lower(): v for k, v in resp.headers.items()}
                 return HttpResponse(status=int(resp.status), headers=headers, body=body)
+        except urllib.error.HTTPError as exc:
+            # Capture body for 4xx/5xx diagnosis.
+            try:
+                body = exc.read()  # type: ignore[attr-defined]
+            except Exception:
+                body = b""
+            out_dir = _probe_results_dir()
+            if out_dir and int(getattr(exc, "code", 0) or 0) == 422:
+                try:
+                    with open(os.path.join(out_dir, "response_422_body.txt"), "wb") as f:
+                        f.write(body)
+                except Exception:
+                    pass
+            raise TransportError(f"HTTP Error {getattr(exc, 'code', '?')}: {exc.reason}") from exc
         except Exception as exc:
             raise TransportError(str(exc)) from exc

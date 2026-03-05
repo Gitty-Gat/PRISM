@@ -1,0 +1,13 @@
+probe_ts=20260305T070400Z
+{
+  "dataset": "GLBX.MDP3",
+  "schema": "trades",
+  "symbols": "ES.FUT",
+  "stype_in": "parent",
+  "stype_out": "instrument_id",
+  "start": "2024-01-03T14:30",
+  "end": "2024-01-03T14:31",
+  "encoding": "csv",
+  "compression": "none",
+  "limit": null
+}
