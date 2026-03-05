@@ -1,12 +1,28 @@
-# PRISM / CAPOPM — Synthetic + Real-Data (Stage B)
+# PRISM / CAPOPM — Reproducible Synthetic + Real-Data (Proxy Evidence)
 
-PRISM is a research codebase for evaluating CAPOPM (a Bayesian parimutuel mechanism with hybrid priors and staged corrections) under **synthetic DGPs** and **real-market proxy evidence**.
+PRISM is a reproducible research codebase for evaluating CAPOPM-style Bayesian inference under:
+- **synthetic DGPs** (paper suite), and
+- **real-market proxy evidence** derived from market microstructure.
 
-**Important posture:** real-market results in this repo are *demonstration/proxy evidence only* and are not sufficient to claim theoretical validation or dominance.
+**Important posture:** real-market results in this repo are *illustrative / demonstration / proxy evidence only* and are not sufficient to claim theoretical validation or dominance.
 
 ---
 
-## 1) System architecture (high level)
+## Project overview
+PRISM provides:
+- a governance-first pipeline (static policy gates + audits)
+- artifact-based reproducibility (hashes + manifest)
+- real-data adapter layers that do **not** modify the Bayesian core
+
+This repository currently includes:
+- Stage B synthetic harness (A/B/C tiers)
+- Stage B.4 Databento integration (probe + campaigns)
+- real-data experiment campaigns:
+  - `REALDATA_GRID_RUN` (~50 experiments, ~$0.28)
+  - `REALDATA_EXPANDED_VALIDATION` (300 experiments, ~$2.86)
+- dashboard UI for interactive exploration
+
+## PRISM architecture
 
 ```
 Synthetic experiments (A/B/C tiers)
@@ -30,7 +46,28 @@ Do not edit (governance constraint):
 
 ---
 
-## 2) Synthetic paper suite
+## Experiment campaigns
+### REALDATA_GRID_RUN (bounded ≤ $20)
+- Command:
+  - `PRISM_DATABENTO_LIVE=1 python3 scripts/run_experiment.py --scenario REALDATA_GRID_RUN`
+- Outputs:
+  - `results/REALDATA_GRID_RUN/`
+
+### REALDATA_EXPANDED_VALIDATION (bounded ≤ $50)
+- Command:
+  - `PRISM_DATABENTO_LIVE=1 python3 scripts/run_experiment.py --scenario REALDATA_EXPANDED_VALIDATION_RUN`
+- Outputs:
+  - `results/REALDATA_EXPANDED_VALIDATION/`
+
+### Databento live probe (single request)
+- Command:
+  - `PRISM_DATABENTO_LIVE=1 python3 scripts/run_databento_live_probe.py`
+- Outputs:
+  - `results/DATABENTO_LIVE_PROBE/`
+
+---
+
+## Synthetic paper suite
 Entry point:
 - `python run_paper_suite.py --tier paper`
 
@@ -72,7 +109,21 @@ That means each entry provides:
 
 ---
 
-## 4) Databento integration (probe + campaigns)
+## Predictive evaluation (proxy)
+Predictive evaluation is performed on **proxy outcomes** defined from future trade-price direction.
+
+- Theory/metric mapping:
+  - `docs/THEORY_METRIC_ALIGNMENT.md`
+- Predictive report:
+  - `docs/PREDICTIVE_EVALUATION.md`
+- Predictive outputs:
+  - `results/REALDATA_EXPANDED_VALIDATION/predictive/`
+- Predictive figures:
+  - `results/REALDATA_EXPANDED_VALIDATION/prism_showcase_predictive/`
+
+---
+
+## Databento integration (probe + campaigns)
 Databento SDK source is vendored locally for reference:
 - `docs/databento/databento-python/`
 
@@ -131,7 +182,22 @@ Outputs:
 
 Note: PDF export may be blocked by local ImageMagick security policy.
 
-## 6) Interactive Dashboard
+## Reproducibility instructions
+Rebuild analyses + figures from saved artifacts (no Databento calls):
+
+```bash
+python3 scripts/reproduce_prism_results.py
+```
+
+Repro guide:
+- `docs/REPRODUCIBILITY.md`
+
+Artifact audit:
+- `docs/RESEARCH_ARTIFACT_AUDIT.md`
+
+---
+
+## Interactive Dashboard
 Run the local dashboard (reads artifacts only; no API calls):
 
 - `python3 dashboard/run_dashboard.py`
@@ -141,6 +207,11 @@ Then open:
 
 Docs:
 - `docs/PRISM_DASHBOARD.md`
+
+### Example figures
+- `paper/figures/fig4_temporal_robustness.png`
+- `paper/figures/fig5_weighting_variance_heatmap.png`
+- `paper/figures/fig7_predictive_reliability.png`
 
 ---
 

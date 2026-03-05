@@ -27,6 +27,12 @@ import json
 import os
 from glob import glob
 
+import sys
+
+REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+if REPO_ROOT not in sys.path:
+    sys.path.insert(0, REPO_ROOT)
+
 from src.capopm.pricing import beta_ppf
 
 
@@ -99,6 +105,7 @@ def price_at_or_before(series, t_ns: int):
 
 
 def main() -> None:
+    os.chdir(REPO_ROOT)
     base = os.path.join("results", "REALDATA_EXPANDED_VALIDATION")
     out_dir = os.path.join(base, "predictive")
     os.makedirs(out_dir, exist_ok=True)

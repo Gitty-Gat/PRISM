@@ -16,6 +16,11 @@ from __future__ import annotations
 import csv
 import math
 import os
+import sys
+
+REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+if REPO_ROOT not in sys.path:
+    sys.path.insert(0, REPO_ROOT)
 
 from src.capopm.baselines.imbalance_estimator import imbalance_probability
 from src.capopm.baselines.beta_baseline import beta_mean_var
@@ -30,6 +35,7 @@ def safe_float(x, default=0.0):
 
 
 def main() -> None:
+    os.chdir(REPO_ROOT)
     base = os.path.join("results", "REALDATA_EXPANDED_VALIDATION")
     inp = os.path.join(base, "comparison", "comparison_dataset.csv")
     out_dir = os.path.join(base, "comparison")
