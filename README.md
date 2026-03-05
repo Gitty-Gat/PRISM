@@ -72,7 +72,7 @@ That means each entry provides:
 
 ---
 
-## 4) Databento integration (probe + campaign)
+## 4) Databento integration (probe + campaigns)
 Databento SDK source is vendored locally for reference:
 - `docs/databento/databento-python/`
 
@@ -94,6 +94,16 @@ Key guardrails:
   - `PRISM_DATABENTO_LIVE=1 python3 scripts/run_experiment.py --scenario REALDATA_GRID_RUN`
 
 Design note (budget): downloads each time window once (5 live calls), then runs ~50 local grid cells.
+
+### Expanded validation campaign (bounded ≤ $50)
+- Scenario: `REALDATA_EXPANDED_VALIDATION_RUN`
+- Command:
+  - `PRISM_DATABENTO_LIVE=1 python3 scripts/run_experiment.py --scenario REALDATA_EXPANDED_VALIDATION_RUN`
+- Robustness tests:
+  - `python3 scripts/run_realdata_robustness_tests.py`
+
+Docs:
+- `docs/REALDATA_EXPANDED_VALIDATION.md`
 
 ---
 
