@@ -1,3 +1,23 @@
-# FIGURE_INDEX
+# FIGURE_INDEX (REALDATA_GRID_RUN)
 
-- **VIZ4_weighting_comparison** ← `subset: W1m__*__RAW_N__sequential_update`
+- **VIZ1_posterior_evolution** — Posterior mean over time with 90% band (normal approximation)
+  - source: `W1m__RAW__RAW_N__sequential_update`
+  - reproduce: `python3 scripts/realdata_grid_viz_suite.py`
+- **VIZ2_evidence_vs_posterior** — Evidence strength proxy (alpha+beta) vs posterior mean
+  - source: `W1m__RAW__RAW_N__sequential_update`
+  - reproduce: `python3 scripts/realdata_grid_viz_suite.py`
+- **VIZ3_surface_proxy** — Surface proxy: time × evidence strength colored by posterior mean
+  - source: `W1m__RAW__RAW_N__sequential_update`
+  - reproduce: `python3 scripts/realdata_grid_viz_suite.py`
+- **VIZ4_weighting_trajectories** — Posterior trajectories for all weighting modes (RAW_N)
+  - source: `W1m__*__RAW_N__sequential_update`
+  - reproduce: `python3 scripts/realdata_grid_viz_suite.py`
+- **VIZ4b_weighting_variance** — Posterior variance + CI width by weighting mode
+  - source: `W1m__*__RAW_N__sequential_update`
+  - reproduce: `python3 scripts/realdata_grid_viz_suite.py`
+- **VIZ5_variance_vs_ess** — Scatter of posterior variance vs ESS_w comparing RAW_N vs N*
+  - source: `W1m__*__*__sequential_update`
+  - reproduce: `python3 scripts/realdata_grid_viz_suite.py`
+- **VIZ7_density_snapshots** — Beta density curves at early/mid/late points
+  - source: `W1m__RAW__RAW_N__sequential_update`
+  - reproduce: `python3 scripts/realdata_grid_viz_suite.py`
