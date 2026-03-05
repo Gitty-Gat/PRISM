@@ -1,0 +1,3 @@
+ts_event,price,size,side,trade_id,instrument_id
+1700000000000000000,100.00,5,BUY,t1,TEST.INSTR
+1700000000100000000,100.01,3,SELL,t2,TEST.INSTR

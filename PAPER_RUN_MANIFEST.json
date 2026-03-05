@@ -1458,21 +1458,38 @@
         "reliability_structural_only.csv": "120a796968de89bb18275ca9d588d8cf56718fc75e814dbec1bb2adc2021ea8a",
         "reliability_ml_only.csv": "8a81fbba2aa977dfa9b3a0d70d4c1ffb1cc44830817e072e0e7aa278f9509059"
       }
+    },
+    {
+      "experiment": "REALDATA",
+      "scenario_name": "REALDATA_L3_ADAPTER_SANITY",
+      "seed": 123,
+      "base_seed": 123,
+      "run_index": null,
+      "sweep_params": {},
+      "n_runs": 1,
+      "tier": "REALDATA",
+      "results_dir": "results/REALDATA_L3_ADAPTER_SANITY",
+      "summary_path": "results/REALDATA_L3_ADAPTER_SANITY/summary.json",
+      "audit_path": null,
+      "audit_hash": null,
+      "artifact_hashes": {
+        "summary.json": "accce68b06d0e864d1c9e4d184977dee6e1975ff5489ea26b3dd98858acf5805",
+        "metrics_aggregated.csv": "5708d9961b09d5049f1dbe1c1fabaeec8169121a79e043f680d313cd65ac52d2",
+        "reliability_capopm.csv": "0ea3f855395ff9cd03e70752d3d96716022518771c40d65700f0358773197a8d",
+        "tests.csv": "b6eb805248bd950672957527ee84b646c344e789746f644afb63f720c042c23c",
+        "adapter_diagnostics.json": "150a817a63c6c801723dff573b71c64ef4501d3107784b6f80c28b4ecd159d95"
+      }
     }
   ],
-  "min_runs_per_cell": 30,
-  "min_grid_points": 2,
-  "created_utc": "2026-01-04T23:27:38.101857Z",
-  "python_version": "3.13.0 (tags/v3.13.0:60403a5, Oct  7 2024, 09:38:07) [MSC v.1941 64 bit (AMD64)]",
+  "created_utc": "2026-03-05T05:55:41.325102Z",
+  "python_version": "3.11.2 (main, Apr 28 2025, 14:11:48) [GCC 12.2.0]",
   "command": [
-    "run_paper_suite.py",
-    "--tier",
-    "C",
-    "--runs",
-    "30"
+    "scripts/run_experiment.py",
+    "--scenario",
+    "REALDATA_L3_ADAPTER_SANITY"
   ],
   "ast_gate": {
-    "checker_path": "scripts\\forbidden_ast_check.py",
-    "status": "passed"
+    "checker_path": null,
+    "status": "not_run"
   }
 }

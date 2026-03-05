@@ -1,0 +1,15 @@
+{
+  "evidence_contract": "capopm.realdata.evidence.v1",
+  "instrument": "TEST.INSTR",
+  "source": "data/test_l3",
+  "adapter_version": "realdata_adapter_v1",
+  "events_processed": 5,
+  "trades_reconstructed": 5,
+  "tape_len": 5,
+  "reconstruction": {
+    "explicit_trades": 5,
+    "inferred_trades": 0,
+    "unmatched_trade_events": 0,
+    "timestamp_anomalies": []
+  }
+}

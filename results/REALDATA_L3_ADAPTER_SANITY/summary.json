@@ -1,0 +1,33 @@
+{
+  "scenario_name": "REALDATA_L3_ADAPTER_SANITY",
+  "seed": 123,
+  "config_hash": "8ce05839bf168635aabf98b51b519b05392ac94fb31f269e3df788b72fb430cd",
+  "realdata": {
+    "version": "capopm.realdata.evidence.v1",
+    "instrument": "TEST.INSTR",
+    "source": "data/test_l3",
+    "adapter_version": "realdata_adapter_v1",
+    "events_processed": 5,
+    "trades_reconstructed": 5,
+    "diagnostics_summary": {
+      "explicit_trades": 5,
+      "inferred_trades": 0,
+      "unmatched_trade_events": 0
+    }
+  },
+  "adapter_diagnostics_file": "adapter_diagnostics.json",
+  "metrics": {
+    "brier": 0.042387543252595174,
+    "log_score": -0.3483066942682157,
+    "mae_prob": 0.20588235294117652,
+    "p_hat": 0.7058823529411765,
+    "y": 11.0,
+    "n": 15.0
+  },
+  "reliability_diagnostics": {
+    "status": "SKIPPED",
+    "reason": "numpy_not_available",
+    "n_samples": 1
+  },
+  "note": "Smoke scenario validates adapter->evidence->counts_from_trade_tape compatibility. Not a paper claim validation."
+}

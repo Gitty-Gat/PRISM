@@ -1,0 +1,2 @@
+scenario_name,model,note
+REALDATA_L3_ADAPTER_SANITY,capopm,placeholder: reliability not computed (numpy not available)

@@ -1,0 +1,5 @@
+{"timestamp_ns": 1700000000000000000, "event_type": "TRADE", "price": 100.0, "size": 5.0, "side": "BUY", "order_id": "o1", "trade_id": "t1", "instrument_id": "TEST.INSTR"}
+{"timestamp_ns": 1700000000100000000, "event_type": "TRADE", "price": 100.01, "size": 3.0, "side": "SELL", "order_id": "o2", "trade_id": "t2", "instrument_id": "TEST.INSTR"}
+{"timestamp_ns": 1700000000200000000, "event_type": "TRADE", "price": 100.02, "size": 2.0, "side": "BUY", "order_id": "o3", "trade_id": "t3", "instrument_id": "TEST.INSTR"}
+{"timestamp_ns": 1700000000300000000, "event_type": "TRADE", "price": 100.00, "size": 1.0, "side": "SELL", "order_id": "o4", "trade_id": "t4", "instrument_id": "TEST.INSTR"}
+{"timestamp_ns": 1700000000400000000, "event_type": "TRADE", "price": 100.03, "size": 4.0, "side": "BUY", "order_id": "o5", "trade_id": "t5", "instrument_id": "TEST.INSTR"}
