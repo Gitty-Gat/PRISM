@@ -19,3 +19,6 @@ data/databento/live_probe/
 # Derived comparison outputs (generated)
 results/REALDATA_EXPANDED_VALIDATION/comparison/
 results/REALDATA_EXPANDED_VALIDATION/prism_showcase_comparison/
+
+# Final derived rollups
+results/FINAL_EXPERIMENT_SUMMARY.csv

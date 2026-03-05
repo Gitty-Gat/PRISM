@@ -1,0 +1,2 @@
+Figure 1 (architecture) TBD: create a clean black-background architecture diagram.
+Current suggestion: generate from README diagram via SVG and export PNG.

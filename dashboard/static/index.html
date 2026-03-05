@@ -22,8 +22,9 @@
 </head>
 <body>
 <header>
-  <h1>PRISM Dashboard — REALDATA_GRID_RUN (artifact reader only)</h1>
-  <div class="small">Reads: <code>results/REALDATA_GRID_RUN/analysis/*.csv</code> and per-experiment <code>summary.json</code>. No writes, no API calls.</div>
+  <h1>PRISM Dashboard (artifact reader only)</h1>
+  <div class="small">Reads aggregated CSVs + per-experiment <code>summary.json</code> under <code>results/&lt;campaign&gt;/</code>. No writes, no API calls.</div>
+  <div class="small" style="margin-top:6px;"><label><input type="checkbox" id="demo"/> demo_mode</label> (shows preloaded showcase figures)</div>
 </header>
 
 <div class="row">
@@ -83,15 +84,15 @@
   </div>
 </div>
 
-<div class="row">
+<div class="row" id="demo_panel" style="display:none;">
   <div class="card" style="width:100%;">
-    <h2>Predictive diagnostics (artifact reader)</h2>
-    <div class="small">Loaded from <code>results/REALDATA_EXPANDED_VALIDATION/prism_showcase_predictive/</code></div>
+    <h2>Demo mode: preloaded figures</h2>
+    <div class="small">These are static artifact images (no computation in dashboard).</div>
     <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:10px;">
+      <img src="/results/REALDATA_EXPANDED_VALIDATION/prism_showcase/G_VIZ6_temporal_mean_by_slice.png" style="max-width:48%; border:1px solid #222; border-radius:8px;"/>
+      <img src="/results/REALDATA_EXPANDED_VALIDATION/prism_showcase/G_VIZ8_variance_heatmap.png" style="max-width:48%; border:1px solid #222; border-radius:8px;"/>
       <img src="/results/REALDATA_EXPANDED_VALIDATION/prism_showcase_predictive/I_VIZ1_reliability_PRISM_5m.png" style="max-width:48%; border:1px solid #222; border-radius:8px;"/>
       <img src="/results/REALDATA_EXPANDED_VALIDATION/prism_showcase_predictive/I_VIZ2_brier_comparison_5m.png" style="max-width:48%; border:1px solid #222; border-radius:8px;"/>
-      <img src="/results/REALDATA_EXPANDED_VALIDATION/prism_showcase_predictive/I_VIZ3_calibration_comparison_5m.png" style="max-width:48%; border:1px solid #222; border-radius:8px;"/>
-      <img src="/results/REALDATA_EXPANDED_VALIDATION/prism_showcase_predictive/I_VIZ5_variance_vs_error_5m.png" style="max-width:48%; border:1px solid #222; border-radius:8px;"/>
     </div>
   </div>
 </div>
@@ -365,6 +366,10 @@ async function init(){
 
   refresh();
 }
+
+document.getElementById('demo').addEventListener('change', (e)=>{
+  document.getElementById('demo_panel').style.display = e.target.checked ? 'block' : 'none';
+});
 
 init();
 </script>
