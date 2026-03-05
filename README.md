@@ -105,6 +105,17 @@ Design note (budget): downloads each time window once (5 live calls), then runs 
 Docs:
 - `docs/REALDATA_EXPANDED_VALIDATION.md`
 
+## Baseline model comparisons (illustrative)
+Baselines live in:
+- `src/capopm/baselines/`
+
+Comparison artifacts:
+- `results/REALDATA_EXPANDED_VALIDATION/comparison/`
+- `results/REALDATA_EXPANDED_VALIDATION/prism_showcase_comparison/`
+
+Report:
+- `docs/BASELINE_MODEL_COMPARISON.md`
+
 ---
 
 ## 5) Visualizations

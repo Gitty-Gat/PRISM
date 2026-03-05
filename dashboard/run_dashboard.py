@@ -56,6 +56,13 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         parsed = urlparse(self.path)
         if parsed.path == "/api/state":
+            q = parse_qs(parsed.query)
+            campaign = (q.get("campaign") or [""])[0]
+            if campaign:
+                cs = self.state["public_state"]["campaign_states"].get(campaign)
+                if not cs:
+                    return self._send_json({"error": "unknown_campaign", "campaign": campaign}, status=404)
+                return self._send_json(cs)
             return self._send_json(self.state["public_state"])
         if parsed.path == "/api/experiment":
             q = parse_qs(parsed.query)

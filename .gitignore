@@ -15,3 +15,7 @@ results/REALDATA_EXPANDED_VALIDATION/
 results/REALDATA_GRID_RUN/
 results/DATABENTO_LIVE_PROBE/
 data/databento/live_probe/
+
+# Derived comparison outputs (generated)
+results/REALDATA_EXPANDED_VALIDATION/comparison/
+results/REALDATA_EXPANDED_VALIDATION/prism_showcase_comparison/
