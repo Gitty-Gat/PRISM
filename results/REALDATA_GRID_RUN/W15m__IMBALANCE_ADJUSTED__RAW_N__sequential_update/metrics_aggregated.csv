@@ -1,0 +1,2 @@
+experiment_id,p_hat_last,alpha_last,beta_last,n_used,y_used,ess_w
+W15m__IMBALANCE_ADJUSTED__RAW_N__sequential_update,0.9999343344168115,15227.677664035524,1.0,15226.67766403628,15226.67766403628,9674.849055015497

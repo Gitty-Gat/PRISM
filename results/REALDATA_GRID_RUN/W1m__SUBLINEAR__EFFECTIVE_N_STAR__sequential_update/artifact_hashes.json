@@ -1,0 +1,8 @@
+{
+  "summary.json": "d6c218ce80be0383d7eb4f0fe1d9661d607be92f8020c7a322bba1829eb7476a",
+  "adapter_diagnostics.json": "5d1c11264510b4ba329eb2d06e765aee4c16945b528c148a9c87fbe274a54c20",
+  "metrics_aggregated.csv": "966cc6247a566d89a2a58ee274c1c39a593341a6b2febd41e49c98d8263532d9",
+  "reliability_capopm.csv": "071e801a1668dbd51c6ed4357a1f15711edfa597d683df53eb6858766348181c",
+  "tests.csv": "32fe64ee18c553b110e4ba2d8788efb90cfe6f75e6d54f5d5e80c1ace831a5bf",
+  "run_log.txt": "3232a19525438c7b1c3709393bf43b1b315584efb30f00f9e8606a592de5831e"
+}

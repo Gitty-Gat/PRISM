@@ -1,0 +1,2 @@
+experiment_id,p_hat_last,alpha_last,beta_last,n_used,y_used,ess_w
+W60m__RAW__EFFECTIVE_N_STAR__sequential_update,0.9999783853885227,46264.0,1.0,46263.0,46263.0,46263.0

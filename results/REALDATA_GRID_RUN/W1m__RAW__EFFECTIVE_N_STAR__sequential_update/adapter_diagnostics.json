@@ -1,0 +1,15 @@
+{
+  "evidence_contract": "capopm.realdata.evidence.v1",
+  "instrument": "17077",
+  "source": "databento:GLBX.MDP3:trades",
+  "adapter_version": "databento_campaign_v1",
+  "events_processed": 4016,
+  "trades_reconstructed": 1787,
+  "tape_len": 1787,
+  "reconstruction": {
+    "explicit_trades": 1787,
+    "inferred_trades": 0,
+    "unmatched_trade_events": 2229,
+    "timestamp_anomalies": []
+  }
+}

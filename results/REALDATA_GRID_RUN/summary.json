@@ -1,0 +1,29 @@
+{
+  "scenario_name": "REALDATA_GRID_RUN",
+  "dataset": "GLBX.MDP3",
+  "symbols": "ES.FUT",
+  "windows_min": [
+    1,
+    5,
+    15,
+    30,
+    60
+  ],
+  "weighting_modes": [
+    "RAW",
+    "SIZE_WEIGHTED",
+    "CAPPED",
+    "SUBLINEAR",
+    "IMBALANCE_ADJUSTED"
+  ],
+  "dependence_modes": [
+    "RAW_N",
+    "EFFECTIVE_N_STAR"
+  ],
+  "posterior_modes": [
+    "sequential_update"
+  ],
+  "total_estimated_cost_usd": 0.28266960382399997,
+  "n_experiments": 50,
+  "note": "Campaign estimates cost per window download; grid cells reuse downloads locally."
+}

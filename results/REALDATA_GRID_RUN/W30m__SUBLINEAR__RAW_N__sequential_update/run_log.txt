@@ -1,0 +1,4 @@
+{
+  "exp_id": "W30m__SUBLINEAR__RAW_N__sequential_update",
+  "window_download_cost": 0.058749675751
+}

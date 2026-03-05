@@ -1,0 +1,2 @@
+experiment_id,p_hat_last,alpha_last,beta_last,n_used,y_used,ess_w
+W1m__SUBLINEAR__EFFECTIVE_N_STAR__sequential_update,0.9996622987992223,2960.1976436480695,1.0,1205.845592697911,1205.845592697911,1205.845592697911

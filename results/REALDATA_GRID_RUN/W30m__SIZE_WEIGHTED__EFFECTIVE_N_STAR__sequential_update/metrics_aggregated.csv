@@ -1,0 +1,2 @@
+experiment_id,p_hat_last,alpha_last,beta_last,n_used,y_used,ess_w
+W30m__SIZE_WEIGHTED__EFFECTIVE_N_STAR__sequential_update,0.9999876203916908,80777.0,1.0,4203.189371373208,4203.189371373208,4203.189371373208

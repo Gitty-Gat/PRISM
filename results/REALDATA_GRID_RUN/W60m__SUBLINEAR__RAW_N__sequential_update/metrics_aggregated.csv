@@ -1,0 +1,2 @@
+experiment_id,p_hat_last,alpha_last,beta_last,n_used,y_used,ess_w
+W60m__SUBLINEAR__RAW_N__sequential_update,0.9999864424336375,73758.5504432866,1.0,73757.55044327893,73757.55044327893,32077.45657238029

@@ -1,0 +1,4 @@
+{
+  "exp_id": "W1m__CAPPED__EFFECTIVE_N_STAR__sequential_update",
+  "window_download_cost": 0.02852243185
+}
