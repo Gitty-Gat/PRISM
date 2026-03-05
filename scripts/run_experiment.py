@@ -11,6 +11,7 @@ Design goals:
 
 Supported scenarios (initial):
 - REALDATA_L3_ADAPTER_SANITY
+- REALDATA_GRID_RUN
 
 Note:
 - This runner is intentionally small; paper suite remains `run_paper_suite.py`.
@@ -115,6 +116,37 @@ def main() -> None:
         }
         _update_manifest(entry)
         print(f"OK: ran {scenario}; wrote artifacts to {results_dir}")
+        return
+
+    if scenario == "REALDATA_GRID_RUN":
+        from src.capopm.experiments.realdata_grid_run import SCENARIO_NAME, run_realdata_grid_run
+
+        if scenario != SCENARIO_NAME:
+            raise SystemExit(f"Scenario mismatch: {scenario} != {SCENARIO_NAME}")
+
+        results = run_realdata_grid_run()
+        results_dir = os.path.join("results", scenario)
+        # Campaign-level artifact set
+        artifact_names = ["summary.json", "run_log.txt", "artifact_hashes.json"]
+        artifact_hashes = {}
+        for name in artifact_names:
+            path = os.path.join(results_dir, name)
+            if os.path.exists(path):
+                artifact_hashes[name] = _sha256_file(path)
+
+        entry = {
+            "experiment": "REALDATA_GRID_RUN",
+            "scenario_name": scenario,
+            "tier": "REALDATA",
+            "results_dir": results_dir,
+            "total_estimated_cost_usd": results.get("total_estimated_cost_usd"),
+            "n_experiments": results.get("n_experiments"),
+            "artifact_hashes": artifact_hashes,
+        }
+        _update_manifest(entry)
+        print(
+            f"OK: ran {scenario}; n_experiments={results.get('n_experiments')} total_cost≈${results.get('total_estimated_cost_usd'):.4f}"
+        )
         return
 
     raise SystemExit(f"Unknown scenario: {scenario}")

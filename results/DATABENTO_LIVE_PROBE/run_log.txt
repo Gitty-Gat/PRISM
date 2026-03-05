@@ -1,4 +1,4 @@
-probe_ts=20260305T070400Z
+probe_ts=20260305T070525Z
 {
   "dataset": "GLBX.MDP3",
   "schema": "trades",
@@ -11,3 +11,4 @@ probe_ts=20260305T070400Z
   "compression": "none",
   "limit": null
 }
+estimated_cost_usd=0.02852243185

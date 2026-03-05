@@ -1,5 +1,5 @@
 {
-  "ts": "20260305T070400Z",
+  "ts": "20260305T070525Z",
   "endpoint_base": "https://hist.databento.com/v0",
   "probe": {
     "dataset": "GLBX.MDP3",

@@ -1,4 +1,4 @@
-# CAPOPM Synthetic Validation (Paper Preparation)
+# PRISM / CAPOPM — Synthetic + Real-Data (Stage B.4)
 
 ## A. Project Overview
 - CAPOPM implements the canonical Bayesian parimutuel mechanism with structural priors, ML priors, Stage 1 behavioral reweighting, and Stage 2 regime mixtures (Phases 1–6 of the paper).

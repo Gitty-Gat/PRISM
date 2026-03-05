@@ -1479,6 +1479,25 @@
         "tests.csv": "b6eb805248bd950672957527ee84b646c344e789746f644afb63f720c042c23c",
         "adapter_diagnostics.json": "150a817a63c6c801723dff573b71c64ef4501d3107784b6f80c28b4ecd159d95"
       }
+    },
+    {
+      "experiment": "DATABENTO",
+      "scenario_name": "DATABENTO_LIVE_PROBE",
+      "tier": "REALDATA",
+      "dataset": "GLBX.MDP3",
+      "schema": "trades",
+      "symbols": "ES.FUT",
+      "start": "2024-01-03T14:30",
+      "end": "2024-01-03T14:31",
+      "estimated_cost_usd": 0.02852243185,
+      "results_dir": "results/DATABENTO_LIVE_PROBE",
+      "artifact_hashes": {
+        "summary.json": "d2ac77855e5c5c568d2e4c90650b7bf683f558160a9021ca97d9db4d204b2edc",
+        "adapter_diagnostics.json": "06a5c6f7da757c000541c0c9cf2becf6453d9af1e8ee9f1f83ec9b01e19d311b",
+        "evidence_tape.json": "f43e55ff8c70fcfa68decab546a76ef652c1d16d557f29c27e584b05342aefcb",
+        "run_log.txt": "45bfabcbfa64fee3a7bf9af5e77087a714fa57d2ca32af7eb72315ece97d8bfb",
+        "data/databento/live_probe/20260305T070525Z/raw.csv": "eaa3b31bfce60321ebb7ae6368d86fd5651a434f0161703099d73982caeb35cc"
+      }
     }
   ],
   "created_utc": "2026-03-05T05:55:41.325102Z",
