@@ -1,0 +1,20 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='1600' height='900' viewBox='0 0 1600 900'>
+<rect width='100%' height='100%' fill='black'/>
+<text x='80' y='70' fill='#e0e0e0' font-family='DejaVu Sans' font-size='30' text-anchor='start'>Variance + 90% CI width by weighting (1m, RAW_N)</text>
+<rect x='174.4' y='120.0' width='163.2' height='660.0' fill='#00e5ff' opacity='0.7'/>
+<rect x='280.5' y='120.0' width='57.1' height='660.0' fill='#ffb300' opacity='0.7'/>
+<text x='256.0' y='810' fill='#e0e0e0' font-family='DejaVu Sans' font-size='18' text-anchor='middle'>RAW</text>
+<rect x='446.4' y='739.9' width='163.2' height='40.1' fill='#00e5ff' opacity='0.7'/>
+<rect x='552.5' y='617.4' width='57.1' height='162.6' fill='#ffb300' opacity='0.7'/>
+<text x='528.0' y='810' fill='#e0e0e0' font-family='DejaVu Sans' font-size='18' text-anchor='middle'>SIZE_WEIGHTED</text>
+<rect x='718.4' y='697.1' width='163.2' height='82.9' fill='#00e5ff' opacity='0.7'/>
+<rect x='824.5' y='546.1' width='57.1' height='233.9' fill='#ffb300' opacity='0.7'/>
+<text x='800.0' y='810' fill='#e0e0e0' font-family='DejaVu Sans' font-size='18' text-anchor='middle'>CAPPED</text>
+<rect x='990.4' y='539.0' width='163.2' height='241.0' fill='#00e5ff' opacity='0.7'/>
+<rect x='1096.5' y='381.2' width='57.1' height='398.8' fill='#ffb300' opacity='0.7'/>
+<text x='1072.0' y='810' fill='#e0e0e0' font-family='DejaVu Sans' font-size='18' text-anchor='middle'>SUBLINEAR</text>
+<rect x='1262.4' y='321.8' width='163.2' height='458.2' fill='#00e5ff' opacity='0.7'/>
+<rect x='1368.5' y='230.1' width='57.1' height='549.9' fill='#ffb300' opacity='0.7'/>
+<text x='1344.0' y='810' fill='#e0e0e0' font-family='DejaVu Sans' font-size='18' text-anchor='middle'>IMBALANCE_ADJUSTED</text>
+<text x='120' y='860' fill='#e0e0e0' font-family='DejaVu Sans' font-size='22' text-anchor='start'>cyan: posterior variance   amber: CI width (normal approx)</text>
+</svg>
